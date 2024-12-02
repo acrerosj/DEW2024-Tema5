@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Artículos</h1>
+  <button onclick="loadUsers()">Cargar usuarios</button>
+  <button onclick="loadPosts()">Cargar articulos</button>
+  <div id="users">
+
+  </div>  
+  <main>
+  </main>
+  <script>
+    const urlAPI = 'https://jsonplaceholder.typicode.com/';
+
+    const main = document.querySelector('main');
+    const usersDiv = document.getElementById('users');
+
+    function loadPosts() {
+      main.innerHTML = 'Cargando...';
+  
+      fetch(urlAPI + 'posts')
+      .then(res => res.json())
+      .then(posts => showPost(posts));
+  
+      function showPost(posts) {
+        main.innerHTML = '';
+        posts.forEach( post => {
+          const article = document.createElement('article');
+          article.innerHTML = `
+                <h1>${post.title}</h1>
+                <h2>${post.userId}</h2>
+                <p>${post.body}</p>
+          `;
+          main.append(article);
+        });
+      }
+    }
+
+    function loadUsers() {
+      usersDiv.innerHTML = 'Cargando...';
+  
+      fetch(urlAPI + 'users')
+      .then(res => res.json())
+      .then(users => showUsers(users));
+  
+      function showUsers(users) {
+        usersDiv.innerHTML = '';
+        users.forEach( user => {
+          const p = document.createElement('p');
+          p.textContent = user.name;
+          usersDiv.append(p);
+        });
+      }
+    }
+
+  </script>
+</body>
+</html>
